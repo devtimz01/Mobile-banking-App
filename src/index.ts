@@ -3,16 +3,16 @@ import dotenv from 'dotenv';
 import Dbinitialize from '../src/Database/init'
 dotenv.config();
 
-const PORT =process.env.PORT
+const SERVERPORT =process.env.SERVERPORT
 const app = express();
 app.use(express.json());
 
  const Bootstrap= async function (){
     await Dbinitialize;
     try{
-        app.listen(PORT,async()=>{
+        app.listen(SERVERPORT,async()=>{
 
-            console.log('server is running at port',PORT)
+            console.log('server is running at port',SERVERPORT)
         });
     }
     catch(err){
@@ -21,6 +21,8 @@ app.use(express.json());
  };
 
 Bootstrap;
+
+
 
 
 

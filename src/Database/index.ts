@@ -1,4 +1,6 @@
 import { Sequelize,Dialect } from "sequelize";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const database = process.env.DB_NAME as string;
 const userName = process.env.DB_USERNAME as string;
@@ -15,3 +17,4 @@ const sequelize = new Sequelize(userName,password,database,{
 })
 
 export default sequelize;
+

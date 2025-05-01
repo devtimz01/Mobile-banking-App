@@ -2,7 +2,7 @@ import {Optional,Model} from 'sequelize';
 
 export interface Iuser{
     id: string,
-    userName: string
+    username: string
     email: string,
     password: string,
     firstName: string,
@@ -16,4 +16,5 @@ export interface Iuser{
 
 export interface IuserCreationBody extends Optional<Iuser,"id"|"createdAt"|"updatedAt">{}
 export interface IuserModel extends Model<Iuser,IuserCreationBody>,Iuser{}
+
 
