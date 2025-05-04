@@ -1,22 +1,42 @@
 import UserService from "../service/service";
-import express from 'express';
+import express,{Request, Response} from 'express';
+import { IuserCreationBody } from "../interfaces/user-interface";
+import bcrypt from "bcrypt";
 
 class Authentication{
-    UserService;
-
+    private userService: UserService
     constructor(_userService: UserService){
-        this.UserService = UserService;
+        this.userService=_userService
     }
 
-   async register(){ 
+    async register(req:Request,res:Response){
+        const{username,email,password,firstname,lastname,isEmailVerified,role,accountStatus}: IuserCreationBody= req.body;
         try{
-            //user exists
+            const existingUser = await this.userService.findByField({email});
+            if(existingUser){
+                return res.status(409).send('user already exists')
+                //or use helper functions for route validation...
+            }          
+                //create user
+                const saltRounds  = 10
+                const hashedPassword  = await bcrypt.hash(password,saltRounds)
+                const user = await this.userService.createUser({
+                    username,
+                    email,
+                    password:hashedPassword,
+                    firstname,
+                    lastname,
+                    isEmailVerified,
+                    role,
+                    accountStatus
+                });
+                return res.status(201).json({user})          
         }
         catch(err){
-            //create new user
-            
+            console.log(err)
+            return res.status(500).send('server error')
         }
-   }
+    }
  };
 
-
+export default Authentication;

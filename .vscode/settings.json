@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "enableSsl": "enableSsl"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "localSql",
+            "username": "root",
+            "database": "clientDb",
+            "password": "M_timz200030"
+        }
+    ]
+}

@@ -2,10 +2,12 @@ import express from 'express'
 import dotenv from 'dotenv';
 import Dbinitialize from '../src/Database/init'
 dotenv.config();
+import Router from './routes/authRoute';
 
 const SERVERPORT =process.env.SERVERPORT
 const app = express();
 app.use(express.json());
+app.use('/api/user', Router);
 
  const Bootstrap= async function (){
     await Dbinitialize;
@@ -19,8 +21,8 @@ app.use(express.json());
         console.log(err)
     }
  };
-
-Bootstrap;
+ 
+Bootstrap();
 
 
 

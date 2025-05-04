@@ -12,8 +12,9 @@ const UserModel = Db.define<IuserModel>('UserModel',{
     },
     username:{
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: true,
+        unique: true,
+
     },
     email:{
         type: DataTypes.STRING,
@@ -25,18 +26,19 @@ const UserModel = Db.define<IuserModel>('UserModel',{
         type: DataTypes.STRING,
         allowNull: false
     },
-    firstName:{
+    firstname:{
         type: DataTypes.STRING,
         allowNull: false
 
     },
-    lastName:{
+    lastname:{
         type: DataTypes.STRING,
         allowNull: false
     },
     role:{
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 'customer'
     },
     createdAt:{
         type: DataTypes.DATE,
@@ -50,11 +52,12 @@ const UserModel = Db.define<IuserModel>('UserModel',{
     },
     isEmailVerified:{
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        defaultValue: false
     },
     accountStatus:{
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true,
+        defaultValue: 'guest_user'
     }
     
 },{timestamps:true,
