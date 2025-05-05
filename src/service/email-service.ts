@@ -1,13 +1,7 @@
 
 class EmailService{
-    static async sendMail(to:string, code){
+    static async sendMail(){
 
-         this.setEmail(to)
-
-        async setEmail(){
-            //setup nodemailer library to send mail
-
-        }
     }
 };
 

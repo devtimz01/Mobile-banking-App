@@ -7,7 +7,7 @@ class TokenService{
             expiresAt:''
 
         }
-       let token=  this.createtoken(tokenData)
+       let token=  this.createtoken()
     }
     async createtoken(){
       //check for unique token

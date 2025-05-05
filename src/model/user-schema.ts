@@ -1,19 +1,19 @@
 import { IuserModel } from "../interfaces/user-interface";
 import Db from "../Database/index";
-import { DataType, DataTypes, UUIDV4 } from "sequelize";
-import { table, timeStamp } from "console";
+import { DataTypes} from "sequelize";
 
 const UserModel = Db.define<IuserModel>('UserModel',{
     id:{
         type: DataTypes.UUID,
         allowNull: false,
-        defaultValue:()=> UUIDV4,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true    
     },
     username:{
         type: DataTypes.STRING,
         allowNull: true,
         unique: true,
+        defaultValue:'guest_user'
 
     },
     email:{
@@ -57,7 +57,7 @@ const UserModel = Db.define<IuserModel>('UserModel',{
     accountStatus:{
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: 'guest_user'
+        defaultValue:'guest_user'
     }
     
 },{timestamps:true,

@@ -2,6 +2,7 @@ import UserService from "../service/service";
 import express,{Request, Response} from 'express';
 import { IuserCreationBody } from "../interfaces/user-interface";
 import bcrypt from "bcrypt";
+import { error } from "console";
 
 class Authentication{
     private userService: UserService
@@ -13,7 +14,8 @@ class Authentication{
         try{
             const existingUser = await this.userService.findByField({email});
             if(existingUser){
-                return res.status(409).send('user already exists')
+                console.log("Existing user lookup result:", existingUser);
+                return res.status(401).send('user already exists')
                 //or use helper functions for route validation...
             }          
                 //create user
