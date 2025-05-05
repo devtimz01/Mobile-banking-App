@@ -8,7 +8,6 @@ class Authentication{
     constructor(_userService: UserService){
         this.userService=_userService
     }
-
     async register(req:Request,res:Response){
         const{username,email,password,firstname,lastname,isEmailVerified,role,accountStatus}: IuserCreationBody= req.body;
         try{
