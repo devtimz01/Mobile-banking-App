@@ -11,6 +11,9 @@ const controller = new Authentication(userService)
 Router.post('/signup',(req: Request ,res: Response)=>{
      controller.register(req,res);
 });
+Router.post('/login',(req: Request ,res: Response)=>{
+     controller.login(req,res);
+});
 
 
 export default Router;

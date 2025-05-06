@@ -48,8 +48,41 @@ class Authentication{
             console.log(err)
             return res.status(500).send('server error')
         }
+    };
+    async login(req:Request, res:Response){
+         try{
+            const{email,password}:IuserCreationBody = req.body;
+            const user = await this.userService.findByField({email})
+            if(!user){
+                return res.send(404).send('user does not exist')
+            }
+            const isPasswordMatch = await bcrypt.compare(password,user.password)
+            if(!isPasswordMatch){
+                return res.status(401).send('invalid credentials')
+            }
+            else{
+                 //jwt auth logic
+                 const token = jwt.sign({
+                    username: user.username as string,
+                    email: user.email as string,
+                    id: user.id as string,
+                    role: user.role as string
+                },
+                process.env.JWT_SECRET as string,
+                {expiresIn:'30d'})
+                return res.status(200).json({user,token})       
+            }          
+         }
+         catch(err){
+            return res.status(500).send('server error')
+         }
+    };
+
+    async forgetPassword(req:Request,res: Response){
+        
     }
-    async login(){
+
+    async resetPassword(req:Request,res:Response){
 
     }
  };
