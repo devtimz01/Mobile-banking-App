@@ -1,8 +1,10 @@
 import UserService from "../service/service";
 import express,{Request, Response} from 'express';
-import { IuserCreationBody } from "../interfaces/user-interface";
+import { Iuser, IuserCreationBody } from "../interfaces/user-interface";
 import bcrypt from "bcrypt";
-import { error } from "console";
+import jwt from 'jsonwebtoken';
+import dotenv from "dotenv";
+dotenv.config();
 
 class Authentication{
     private userService: UserService
@@ -31,7 +33,16 @@ class Authentication{
                     role,
                     accountStatus
                 });
-                return res.status(201).json({user})          
+                //jwt auth logic
+                const token = jwt.sign({
+                    username: user.username,
+                    email: user.email,
+                    id: user.id,
+                    role: user.role
+                } as Iuser,
+                process.env.JWT_SECRET as string,
+                {expiresIn:'30d'})
+                return res.status(201).json({user,token})          
         }
         catch(err){
             console.log(err)
