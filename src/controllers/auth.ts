@@ -32,14 +32,14 @@ class Authentication{
                     isEmailVerified,
                     role,
                     accountStatus
-                });
+                }) as IuserCreationBody;
                 //jwt auth logic
                 const token = jwt.sign({
-                    username: user.username,
-                    email: user.email,
-                    id: user.id,
-                    role: user.role
-                } as Iuser,
+                    username: user.username as string,
+                    email: user.email as string,
+                    id: user.id as string,
+                    role: user.role as string
+                },
                 process.env.JWT_SECRET as string,
                 {expiresIn:'30d'})
                 return res.status(201).json({user,token})          
@@ -48,6 +48,9 @@ class Authentication{
             console.log(err)
             return res.status(500).send('server error')
         }
+    }
+    async login(){
+
     }
  };
 
