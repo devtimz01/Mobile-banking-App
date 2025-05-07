@@ -1,6 +1,7 @@
 import UserService from "../service/service";
 import express,{Request, Response} from 'express';
 import { Iuser, IuserCreationBody } from "../interfaces/user-interface";
+import EmailService from "../service/email-service";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
@@ -8,8 +9,11 @@ dotenv.config();
 
 class Authentication{
     private userService: UserService
-    constructor(_userService: UserService){
+    private tokenService: TokenService
+
+    constructor(_userService: UserService,_tokenService:TokenService){
         this.userService=_userService
+        this.tokenService =_tokenService
     }
     async register(req:Request,res:Response){
         const{username,email,password,firstname,lastname,isEmailVerified,role,accountStatus}: IuserCreationBody= req.body;
@@ -79,7 +83,9 @@ class Authentication{
     };
 
     async forgetPassword(req:Request,res: Response){
-        
+        //send a forgotpassword token
+       const token = await this.tokenService.sendToken({email})
+        await sendMail({email}, token)
     }
 
     async resetPassword(req:Request,res:Response){
