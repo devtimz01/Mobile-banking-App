@@ -23,6 +23,11 @@ const tokenModel = Db.define<ItokenModel>('tokenModel',{
         allowNull:false,
         unique: true
     },
+    expires:{
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW
+    },
     status:{
         type: DataTypes.STRING,
         allowNull: false

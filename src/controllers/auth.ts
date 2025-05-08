@@ -5,6 +5,7 @@ import EmailService from "../service/email-service";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
+import { Itoken } from "../interfaces/token-interarface";
 dotenv.config();
 
 class Authentication{
@@ -82,14 +83,16 @@ class Authentication{
          }
     };
 
-    async forgetPassword(req:Request,res: Response){
+    async forgotPassword(req:Request,res: Response){
+        const{email}= req.body
         //send a forgotpassword token
-       const token = await this.tokenService.sendToken({email})
-        await sendMail({email}, token)
+       const token = await this.tokenService.sendForgotPasswordToken({email}) as Itoken;
+        await EmailService.sendMail({email}, token)
     }
 
     async resetPassword(req:Request,res:Response){
-
+        //update password record
+        
     }
  };
 

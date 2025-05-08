@@ -5,6 +5,7 @@ export interface Itoken{
     id: string;
     type: string;
     code: string;
+    expires: Date;
     status: string;
     createdAt: Date;
     updatedAt: Date
