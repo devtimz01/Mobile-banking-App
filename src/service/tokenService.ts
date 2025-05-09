@@ -4,6 +4,7 @@ import TokenDataSource from "../DataSource/token-datasource";
 import crypto from 'crypto';
 import moment from 'moment'
 import { error } from "console";
+import { raw } from "express";
 
 //errm, what's my role in this now??
 class TokenService{
@@ -59,6 +60,16 @@ class TokenService{
             }
         } 
         return this.dataSource.create(tokenData);
+    }
+    
+    async updateOne(data:Partial<Itoken>, record:Partial<Itoken>): Promise<void>{
+        const query ={
+            where:{
+                ...record
+            },
+            raw: true
+        } as IinsertTypes
+        this.dataSource.updateOne(data,query);
     }
 }
     export default TokenService;

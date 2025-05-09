@@ -1,11 +1,13 @@
 import UserService from "../service/service";
-import express,{Request, Response} from 'express';
-import { Iuser, IuserCreationBody } from "../interfaces/user-interface";
+import {Request, Response} from 'express';
+import {  Iuser, IuserCreationBody } from "../interfaces/user-interface";
 import EmailService from "../service/email-service";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
 import { Itoken } from "../interfaces/token-interarface";
+import TokenService from "../service/tokenService";
+import moment from "moment";
 dotenv.config();
 
 class Authentication{
@@ -84,15 +86,53 @@ class Authentication{
     };
 
     async forgotPassword(req:Request,res: Response){
-        const{email}= req.body
-        //send a forgotpassword token
-       const token = await this.tokenService.sendForgotPasswordToken({email}) as Itoken;
-        await EmailService.sendMail({email}, token)
+
+        try{
+            const{email}: IuserCreationBody= req.body
+            //send a forgotpassword token
+            const user = await this.userService.findByField({email})
+            if(!user){
+                return res.status(404).send('user not found')       
+            }
+            else{
+                const token = await this.tokenService.sendForgotPasswordToken(email) as Itoken;
+                await EmailService.sendMail(email, token.code)
+                return res.status(201).send('password reset mail sent')
+            }
+        }
+        catch(err){
+            return res.status(500).send('password rest mail not sent')
+        }
     }
 
     async resetPassword(req:Request,res:Response){
-        //update password record
-        
+        try{       
+            const params ={...req.body}
+            const isVerifiedToken = await this.tokenService.findTokenByField({
+                key:params.email,code:params.code,status:this.tokenService.tokenStatus.NOT_USED,type: this.tokenService.tokenType.FORGOT_PASSWORD})
+            if(!isVerifiedToken){
+                return res.status(404).send('token not found')
+            }
+            if(isVerifiedToken && moment(isVerifiedToken.expires).diff(moment(),'minute')<=0){
+                return res.status(400).send('token expired')
+            }
+
+            let user = await this.userService.findByField(params.email)
+            if(!user){
+                return res.status(404).send('user not found')
+            }
+                //update unexpired token data and queries
+              const saltRounds = 10
+              let hashedPassword = await bcrypt.hash(password,saltRounds)
+              const updatedPasswordRecord= await this.userService.updateOne({id},{password:hashedPassword})
+              const updatedTokenRecord= await this.tokenService.updateOne({id},{status:this.tokenService.tokenStatus.USED})
+              return res.status(201).json({
+                updatedPasswordRecord,updatedTokenRecord
+              });     
+        }
+        catch(err){
+            return res.status(500).send('server error');
+        }
     }
  };
 
