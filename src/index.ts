@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use('/api/user', Router);
 
- const Bootstrap= async function (){
+ const server= async function (){
     await Dbinitialize;
     try{
         app.listen(SERVERPORT,async()=>{
@@ -22,7 +22,7 @@ app.use('/api/user', Router);
     }
  };
  
-Bootstrap();
+server();
 
 
 

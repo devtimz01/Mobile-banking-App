@@ -1,10 +1,11 @@
+import {Request, Response} from 'express';
 const nodemailer = require('nodemailer');
 import dotenv from 'dotenv';
 dotenv.config();
 
 class EmailService{
     static async sendMail(email:string,  code:string){
-       const message = "your mail verification code is ${code}"
+       const message = `your mail verification code is ${code}`
         return this.sendMailWithTransporter(email, message);
     }
 
@@ -20,7 +21,7 @@ class EmailService{
             })
 
             const mailOption = {
-                from:'process.env.ADMIN_MAIL' ,
+                from: process.env.ADMIN_MAIL ,
                 to: email,
                 subject:"password reset mail",
                 html:`<p> 
@@ -30,7 +31,7 @@ class EmailService{
             return await transporter.sendMail(mailOption);
         }
         catch(err){
-            console.log(err);
+             throw new Error('Server error, mail not sent');
         }
     };
 

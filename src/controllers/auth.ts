@@ -1,6 +1,6 @@
 import UserService from "../service/service";
 import {Request, Response} from 'express';
-import {  Iuser, IuserCreationBody } from "../interfaces/user-interface";
+import {  IuserCreationBody } from "../interfaces/user-interface";
 import EmailService from "../service/email-service";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
@@ -86,7 +86,6 @@ class Authentication{
     };
 
     async forgotPassword(req:Request,res: Response){
-
         try{
             const{email}: IuserCreationBody= req.body
             //send a forgotpassword token
@@ -94,11 +93,10 @@ class Authentication{
             if(!user){
                 return res.status(404).send('user not found')       
             }
-            else{
                 const token = await this.tokenService.sendForgotPasswordToken(email) as Itoken;
                 await EmailService.sendMail(email, token.code)
                 return res.status(201).send('password reset mail sent')
-            }
+            
         }
         catch(err){
             return res.status(500).send('password rest mail not sent')
@@ -123,17 +121,19 @@ class Authentication{
             }
                 //update unexpired token data and queries
               const saltRounds = 10
-              let hashedPassword = await bcrypt.hash(password,saltRounds)
-              const updatedPasswordRecord= await this.userService.updateOne({id},{password:hashedPassword})
-              const updatedTokenRecord= await this.tokenService.updateOne({id},{status:this.tokenService.tokenStatus.USED})
+              let hashedPassword = await bcrypt.hash(params.password,saltRounds)
+              const updatedPasswordRecord= await this.userService.updateOne({id: user.id},{password:hashedPassword})
+              const updatedTokenRecord= await this.tokenService.updateOne({id: isVerifiedToken.id},{status:this.tokenService.tokenStatus.USED})
               return res.status(201).json({
                 updatedPasswordRecord,updatedTokenRecord
               });     
         }
         catch(err){
+            console.log(err)
             return res.status(500).send('server error');
         }
     }
  };
 
 export default Authentication;
+
