@@ -27,5 +27,5 @@ export interface IdataSource{
     //name methods
     fetchOne(query:IfindTypes): Promise<Iuser|null>;
     create(record:IuserCreationBody): Promise<Iuser>;
-    updateOne(data:Partial<Iuser>, query:IfindTypes):Promise<void>;
+    updateOne(sortBy:IfindTypes, data:Partial<Iuser>):Promise<void>;
 }

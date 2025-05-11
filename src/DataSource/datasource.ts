@@ -8,8 +8,8 @@ class DataSource implements IdataSource {
     async create(record: IuserCreationBody): Promise<Iuser> {
         return await UserModel.create(record)
     }
-    async updateOne(data: Partial<Iuser>, query: IfindTypes): Promise<void> {
-         await UserModel.update(data,query)
+    async updateOne(sortBy: IfindTypes, data: Partial<Iuser>): Promise<void> {
+           await UserModel.update(data,sortBy);
     }
 }
 

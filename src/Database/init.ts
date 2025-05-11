@@ -1,11 +1,13 @@
 import Db from './index';
 import UserModel from '../model/user-schema';
 import tokenModel from '../model/token-schema';
+import accountModel from '../model/account-schema';
 
 const DbIntitialize=async()=>{
     try{
-        tokenModel.sync({alter:true})
-        UserModel.sync({alter:true})
+        tokenModel.sync({alter:false})
+        UserModel.sync({alter:false})
+        accountModel.sync({alter:false})
         await Db.authenticate()
     }
     catch(err){

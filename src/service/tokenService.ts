@@ -60,14 +60,14 @@ class TokenService{
         return this.dataSource.create(tokenData);
     }
     
-    async updateOne(data:Partial<Itoken>, record:Partial<Itoken>): Promise<void>{
+    async updateOne(searchBy:Partial<Itoken>, record:Partial<Itoken>): Promise<void>{
         const query ={
             where:{
-                ...record
+                ...searchBy
             },
             raw: true
         } as IinsertTypes
-        this.dataSource.updateOne(data,query);
+       await this.dataSource.updateOne(query,record);
     }
-}
+};
     export default TokenService;

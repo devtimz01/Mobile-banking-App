@@ -10,9 +10,8 @@ class TokenDataSource implements ItokenDataSource{
         return await tokenModel.create(record)     
     }
 
-    async updateOne(data: Partial<Itoken>, query: IinsertTypes): Promise<void> {
-         await tokenModel.update(data,query)
-    }
+   async updateOne(sortBy: IinsertTypes, data: Partial<Itoken>): Promise<void> {
+       await tokenModel.update(data,sortBy);
+   }
 }
-
 export default TokenDataSource;

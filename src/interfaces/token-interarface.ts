@@ -24,5 +24,5 @@ export interface ItokenModel extends Model<Itoken,ItokenCreationBody>,Itoken{}
 export interface ItokenDataSource{ 
     fetchOne(query:IinsertTypes):Promise<Itoken| null>
     create(record:ItokenCreationBody):Promise<Itoken>
-    updateOne(data:Partial<Itoken>, query:IinsertTypes): Promise<void>}
+    updateOne(sortBy:IinsertTypes,data:Partial<Itoken>): Promise<void>}
 
