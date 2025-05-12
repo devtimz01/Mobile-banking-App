@@ -20,8 +20,10 @@ class AccountService{
 
    async createAccount(record: IaccountInfoCreationBody): Promise<IaccountInfo>{
     const accountData={
-
-         } as IaccountInfoCreationBody
+            balance:,
+            status:,
+            type,     
+         } as IaccountInfoCreationBody;
          let account= await this.createAccountNumber(accountData);
          return account;
    };
@@ -31,14 +33,14 @@ class AccountService{
       //cryptographically generate account number
       const generateAccountNumber=(num:number)=>{
         let digit ='0123454789'
-           let accountNumber =''
-           for(let i=0;i<10;i++){
-            const randomIndex= crypto.randomBytes(1)[0]%digit.length;
-            accountNumber+=digit[randomIndex];}
+           let accountNumber ='';
+                for(let i=0;i<10;i++){
+                const randomIndex= crypto.randomBytes(1)[0]%digit.length;
+                accountNumber+=digit[randomIndex];}
 
             return accountNumber;
       }
-      
+
       accountData.accountnumber= generateAccountNumber(9)
       let validAccount= false;
           while(!validAccount){

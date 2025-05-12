@@ -15,17 +15,12 @@ class Account{
     async createAccountNumber(req:Request,res:Response){
         const{status} : IaccountInfoCreationBody= req.body
         try{
-            const user = await this.userM0del.findByField({id: req.user.id}) //id gotten from bearer token
+            const user = await this.userM0del.findByField({id: req.body.id}) //id gotten from bearer token
              if(!user){
             return res.status(404).send("user not found"); }
-            const accountInf0 = await this.accountService.createAccount({
-            accountnumber,
-            balance,
-            userId,
-            status,
-            type
-        }) as IaccountInfoCreationBody
-           return res.status(201).json({accountInf0})
+
+            const accountInf0 = await this.accountService.createAccount({id: req.body.id },{status: req.body.status})
+             return res.status(201).json({accountInf0})
         }
         catch(err){
             return res.status(201).send("server error")

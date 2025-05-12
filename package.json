@@ -13,7 +13,8 @@
     "crypto": "^1.0.1",
     "express": "^5.1.0",
     "moment": "^2.30.1",
-    "nodemailer": "^7.0.3"
+    "nodemailer": "^7.0.3",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@sendgrid/mail": "^8.1.5",
