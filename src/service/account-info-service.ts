@@ -7,6 +7,11 @@ class AccountService{
    constructor(_dataSource: AccountDataSource){
     this.dataSource= _dataSource
    }
+   public AccountStatus ={
+    ACTIVE:'ACTIVE',
+    INACTIVE:'INACTIVE',
+    SUSPENDED:'SUSPENDED'
+   };
 
    async findByField(record:Partial<IaccountInfo>): Promise<IaccountInfo|null>{
       const query={
@@ -18,37 +23,37 @@ class AccountService{
      return await this.dataSource.fetchOne(query)
    }
 
-   async createAccount(record: IaccountInfoCreationBody): Promise<IaccountInfo>{
+   async createAccount(record: Partial<IaccountInfoCreationBody>){
     const accountData={
-            balance:,
-            status:,
-            type,     
-         } as IaccountInfoCreationBody;
+         ...record,
+         accountnumber:'',
+         balance: 0.00,
+         status:this.AccountStatus.ACTIVE    
+         }as IaccountInfoCreationBody
          let account= await this.createAccountNumber(accountData);
          return account;
    };
 
-   async createAccountNumber(record:IaccountInfo){
+   async createAccountNumber(record:Partial<IaccountInfoCreationBody>){
       const accountData={...record}
       //cryptographically generate account number
       const generateAccountNumber=(num:number)=>{
         let digit ='0123454789'
            let accountNumber ='';
-                for(let i=0;i<10;i++){
+                for(let i=0;i<num;i++){
                 const randomIndex= crypto.randomBytes(1)[0]%digit.length;
                 accountNumber+=digit[randomIndex];}
 
             return accountNumber;
       }
 
-      accountData.accountnumber= generateAccountNumber(9)
       let validAccount= false;
           while(!validAccount){
+             accountData.accountnumber= generateAccountNumber(9)
              const data = await this.findByField({accountnumber: accountData.accountnumber})
              if(!data){
             validAccount= true
             break;} }
-
             return await this.dataSource.create(accountData);
    };
 }

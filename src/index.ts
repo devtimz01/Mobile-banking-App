@@ -3,11 +3,14 @@ import dotenv from 'dotenv';
 import Dbinitialize from '../src/Database/init'
 dotenv.config();
 import Router from './routes/authRoute';
+import userRouter from './routes/account-routes'
+
 
 const SERVERPORT =process.env.SERVERPORT
 const app = express();
 app.use(express.json());
 app.use('/api/user', Router);
+app.use('/api/account', userRouter);
 
  const server= async function (){
     await Dbinitialize;
