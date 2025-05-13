@@ -1,9 +1,21 @@
+import {Schema} from 'yup';
+import { Request,Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { Request,Response } from "express";
 import dotenv from 'dotenv';
 dotenv.config();
 
-const protect=async(req:Request,res:Response)=>{
+export const validator=(schema:Schema<any>)=>{
+    return async(req:Request,res:Response,next:NextFunction)=>{
+        try{
+            await schema.validate(req.body,{abortEarly:false})
+            next() }
+        catch(err){
+            res.status(500).send("server error");
+        }
+    }
+};
+
+export const protect=async(req:Request,res:Response,next:NextFunction)=>{
     let token: string;
     if(req.headers.authorization && req.headers.authorization.startsWith("bearer")){
          try{
@@ -22,5 +34,3 @@ const protect=async(req:Request,res:Response)=>{
     //Jwt.verify(token)
     //select(-password)
 };
-
-export default {protect}

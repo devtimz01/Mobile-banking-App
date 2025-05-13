@@ -1,5 +1,6 @@
 import AccountDataSource from "../DataSource/account-datasource"
 import { IaccountInfo, IaccountInfoCreationBody, IfindAccounts } from "../interfaces/account-interface"
+import { AccountStatus } from "../enums/account-enums";
 import crypto from "crypto"
 
 class AccountService{
@@ -7,12 +8,7 @@ class AccountService{
    constructor(_dataSource: AccountDataSource){
     this.dataSource= _dataSource
    }
-   public AccountStatus ={
-    ACTIVE:'ACTIVE',
-    INACTIVE:'INACTIVE',
-    SUSPENDED:'SUSPENDED'
-   };
-
+   
    async findByField(record:Partial<IaccountInfo>): Promise<IaccountInfo|null>{
       const query={
         where:{
@@ -28,13 +24,13 @@ class AccountService{
          ...record,
          accountnumber:'',
          balance: 0.00,
-         status:this.AccountStatus.ACTIVE    
+         status: AccountStatus.ACTIVE   
          }as IaccountInfoCreationBody
          let account= await this.createAccountNumber(accountData);
          return account;
    };
 
-   async createAccountNumber(record:Partial<IaccountInfoCreationBody>){
+   async createAccountNumber(record:IaccountInfoCreationBody){
       const accountData={...record}
       //cryptographically generate account number
       const generateAccountNumber=(num:number)=>{

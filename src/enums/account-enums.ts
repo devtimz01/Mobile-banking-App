@@ -1,0 +1,12 @@
+export const AccountType={
+    SAVINGS:'SAVING_ACCOUNT',
+    CURRENT:'CURRENT_ACCOUNT',
+    FIXED_DEPOSIT:'FIXED_DEPOSIT'
+};
+
+export const AccountStatus ={
+    ACTIVE: 'ACTIVE',
+    FROZEN:'FROZEN',
+    DORMANT:'DORMANT',
+    UNDER_REVIEW:'UNDER_REVIEW'
+}
