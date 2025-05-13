@@ -6,7 +6,7 @@ import TokenDataSource from "../DataSource/token-datasource";
 import TokenService from "../service/tokenService";
 
 const Router= express.Router();
-const userService = new UserService(new DataSource)
+export const userService = new UserService(new DataSource)
 const tokenService = new TokenService(new TokenDataSource)
 const controller = new Authentication(userService, tokenService)
 

@@ -2,6 +2,9 @@ import {Schema} from 'yup';
 import { Request,Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import logger from '../utils/index.log';
+import { userService } from '../routes/authRoute';
+import { Iuser } from '../interfaces/user-interface';
 dotenv.config();
 
 export const validator=(schema:Schema<any>)=>{
@@ -20,12 +23,13 @@ export const protect=async(req:Request,res:Response,next:NextFunction)=>{
     if(req.headers.authorization && req.headers.authorization.startsWith("bearer")){
          try{
               token = req.headers.authorization.split(" ")[1] 
-              const decoded = jwt.verify(token, process.env.JWT_SECRET as string)
-              req.user =
+              const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as Iuser
+              req.body.user = await userService.findByField({id:decoded.id})
               next();
          }
          catch(err){
-            throw new Error("invalid user token ")
+            
+            return res.status(500).send("error authenticating user")
          }
     }  
     else{
