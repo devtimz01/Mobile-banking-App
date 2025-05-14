@@ -22,7 +22,6 @@ class AccountService{
    async createAccount(record: Partial<IaccountInfoCreationBody>){
     const accountData={
          ...record,
-         accountnumber:'',
          balance: 0.00,
          status: AccountStatus.ACTIVE   
          }as IaccountInfoCreationBody

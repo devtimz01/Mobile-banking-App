@@ -18,17 +18,22 @@ export const validator=(schema:Schema<any>)=>{
     }
 };
 
-export const protect=async(req:Request,res:Response,next:NextFunction)=>{
-    let token: string;
-    if(req.headers.authorization && req.headers.authorization.startsWith("bearer")){
+export const Auth=()=>{
+    return async(req:Request,res:Response,next:NextFunction)=>{
+        let token: string;
+    if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
          try{
               token = req.headers.authorization.split(" ")[1] 
               const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as Iuser
-              req.body.user = await userService.findByField({id:decoded.id})
+              const user = await userService.findByField({id:decoded.id});
+              if(!user){
+               return res.status(404).send('verified user not found')
+              } 
+              req.user =user;
               next();
          }
-         catch(err){
-            
+         catch(err){      
+            logger.error(err)
             return res.status(500).send("error authenticating user")
          }
     }  
@@ -37,4 +42,5 @@ export const protect=async(req:Request,res:Response,next:NextFunction)=>{
     }
     //Jwt.verify(token)
     //select(-password)
+    }
 };
