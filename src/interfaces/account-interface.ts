@@ -24,6 +24,5 @@ export interface IaccountInfoCreationBody extends Optional<IaccountInfo, "id" | 
 export interface IaccountModel extends Model<IaccountInfo, IaccountInfoCreationBody>, IaccountInfo{}
 export interface IaccountDataSource{
     fetchOne(query:IfindAccounts):Promise<IaccountInfo | null>
-    findAll(query:IfindAccounts):Promise<IaccountInfo | null>
     create(record: IaccountInfoCreationBody):Promise<IaccountInfo>
 };
