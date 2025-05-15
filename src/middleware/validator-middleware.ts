@@ -31,7 +31,7 @@ export const Auth=()=>{
               if(!user){
                throw new Error('user not found')             
               } 
-              req.user =user;
+              req.body.user =user;
               next();}  
         else{
             throw new TypeError('bearer token not found')           

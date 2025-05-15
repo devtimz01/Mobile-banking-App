@@ -115,10 +115,13 @@
     "moduleResolution": "node"
     /* Skip type checking all .d.ts files. */
   },
- /*"include": [
-    //"src/**/*.ts",      // Include all TypeScript files under the `src` directory
-    "types/express.d.ts"   // Include all custom type definition files under the `types` directory
-  ]
- */
+  
+ //"include": [
+  //  "src/**/*.ts",      // Include all TypeScript files under the `src` directory
+  //  "types/express.d.ts"   // Include all custom type definition files under the `types` directory
+  //]
+ 
 }
+
+
 
