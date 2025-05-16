@@ -13,4 +13,8 @@ Router.post('/createAccount',validator(validationSchema.userAccountSchema),Auth(
     controller.createAccountNumber(req,res);
 })
 
+Router.get('/:id',(req:Request,res:Response)=>{
+    controller.findAccount(req,res);
+})
+
 export default Router;

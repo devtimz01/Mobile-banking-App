@@ -1,7 +1,6 @@
-import { IaccountInfoCreationBody } from "../interfaces/account-interface";
+import { IaccountInfoCreationBody,IaccountInfo } from "../interfaces/account-interface";
 import AccountService from "../service/account-info-service";
 import { Request,Response } from "express";
-import UserService from "../service/service";
 import logger from "../utils/index.log";
 
 class Account{
@@ -25,6 +24,25 @@ class Account{
             logger.error(err);
             return res.status(201).send("server error")
         }
+    }
+
+    async findAccount(req:Request,res:Response){
+        try{
+            const{id}  = req.params;
+            const account = await this.accountService.findById({id:req.params.id})
+            return res.status(200).json({
+                account
+            })
+        }catch(err){
+            logger.error(err)
+            return res.status(500).send("server error")
+        }
+    }
+
+     async findAllAccount(req:Request,res:Response){
+
+        
+        
     }
 };
 export default Account;

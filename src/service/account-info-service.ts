@@ -2,6 +2,8 @@ import AccountDataSource from "../DataSource/account-datasource"
 import { IaccountInfo, IaccountInfoCreationBody, IfindAccounts } from "../interfaces/account-interface"
 import { AccountStatus } from "../enums/account-enums";
 import crypto from "crypto"
+import { Iuser } from "../interfaces/user-interface";
+import { where } from "sequelize";
 
 class AccountService{
    dataSource: AccountDataSource
@@ -51,6 +53,12 @@ class AccountService{
             break;} }
             return await this.dataSource.create(accountData);
    };
+   async findById(userId: string){
+      const query={
+         where:{userId}
+      }
+      await this.dataSource.fetchOne(query)
+   }
 }
 
 export default AccountService;
