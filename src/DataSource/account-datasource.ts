@@ -9,11 +9,9 @@ class AccountDataSource implements IaccountDataSource{
     async fetchOne(query: IfindAccounts): Promise<IaccountInfo | null> {
         return await accountModel.findOne(query)
     }
-    /*async findAll(query: IfindAccounts): Promise<IaccountInfo | null> {
-        return await accountModel.findAll(query)
-    }*/
-
-
-}
+    async findAllAccount(filter: IfindAccounts): Promise<IaccountInfo[]> {
+       return await accountModel.findAll()
+    }
+};
 
 export default AccountDataSource;

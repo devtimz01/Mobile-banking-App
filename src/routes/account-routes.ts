@@ -16,5 +16,8 @@ Router.post('/createAccount',validator(validationSchema.userAccountSchema),Auth(
 Router.get('/:id',(req:Request,res:Response)=>{
     controller.findAccount(req,res);
 })
+Router.get('/findAllAccount',Auth(),(req:Request,res:Response)=>{
+    controller.findAllAccount(req,res)
+})
 
 export default Router;

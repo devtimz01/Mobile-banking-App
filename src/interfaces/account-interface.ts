@@ -25,4 +25,5 @@ export interface IaccountModel extends Model<IaccountInfo, IaccountInfoCreationB
 export interface IaccountDataSource{
     fetchOne(query:IfindAccounts):Promise<IaccountInfo | null>
     create(record: IaccountInfoCreationBody):Promise<IaccountInfo>
+    findAllAccount(filter: IfindAccounts):Promise<IaccountInfo[]>
 };

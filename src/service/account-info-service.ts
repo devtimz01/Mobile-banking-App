@@ -4,6 +4,7 @@ import { AccountStatus } from "../enums/account-enums";
 import crypto from "crypto"
 import { Iuser } from "../interfaces/user-interface";
 import { where } from "sequelize";
+import { raw } from "express";
 
 class AccountService{
    dataSource: AccountDataSource
@@ -53,12 +54,21 @@ class AccountService{
             break;} }
             return await this.dataSource.create(accountData);
    };
-   async findById(userId: string){
+   async findById(userId: string):Promise<IaccountInfo| null>{
       const query={
-         where:{userId}
+         where:{userId},
+         returning: true
       }
-      await this.dataSource.fetchOne(query)
+      return await this.dataSource.fetchOne(query)
    }
+   async findAll(record: Partial<IaccountInfo>):Promise<IaccountInfo[]>{
+      const query={
+         where:{...record},
+         raw:true
+      } as IfindAccounts
+     return  await this.dataSource.findAllAccount(query)
+   }
+
 }
 
 export default AccountService;
