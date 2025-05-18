@@ -1,3 +1,4 @@
+import { FindOptions } from "sequelize";
 import { IaccountDataSource, IaccountInfo, IaccountInfoCreationBody, IfindAccounts } from "../interfaces/account-interface";
 import accountModel from "../model/account-schema";
 
@@ -9,8 +10,8 @@ class AccountDataSource implements IaccountDataSource{
     async fetchOne(query: IfindAccounts): Promise<IaccountInfo | null> {
         return await accountModel.findOne(query)
     }
-    async findAllAccount(filter: IfindAccounts): Promise<IaccountInfo[]> {
-       return await accountModel.findAll()
+    async findAllAccount(filter: FindOptions<IaccountInfo>): Promise<IaccountInfo[]> {
+       return await accountModel.findAll(filter)
     }
 };
 
