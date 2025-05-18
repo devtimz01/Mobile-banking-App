@@ -54,19 +54,19 @@ class AccountService{
             break;} }
             return await this.dataSource.create(accountData);
    };
-   async findById(userId: string):Promise<IaccountInfo| null>{
+   async findAll(userId: string):Promise<IaccountInfo[]>{
       const query={
          where:{userId},
-         returning: true
+         raw: true
       }
-      return await this.dataSource.fetchOne(query)
+      return await this.dataSource.findAllAccount(query)
    }
-   async findAll(record: Partial<IaccountInfo>):Promise<IaccountInfo[]>{
+   async findById(record: Partial<IaccountInfo>):Promise<IaccountInfo| null>{
       const query={
          where:{...record},
          raw:true
       } as IfindAccounts
-     return  await this.dataSource.findAllAccount(query)
+     return  await this.dataSource.fetchOne(query)
    }
 
 }

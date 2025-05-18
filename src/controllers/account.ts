@@ -29,7 +29,7 @@ class Account{
     async findAccount(req:Request,res:Response){
         try{
             const params ={...req.body}
-            const account = await this.accountService.findById(params.id) 
+            const account = await this.accountService.findById({id:params.id}) 
             if(!account){
                 throw new Error('invalid id')
             }
