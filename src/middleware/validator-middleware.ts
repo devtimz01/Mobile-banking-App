@@ -38,7 +38,8 @@ export const Auth=()=>{
         }
         }
     catch(err){
-        logger.error(err)
+       // logger.error(err)
+        console.log(err)
         res.status(500).send("error authenticating user")  
         return;
     }
