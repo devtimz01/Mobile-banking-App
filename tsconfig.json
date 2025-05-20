@@ -116,10 +116,7 @@
     /* Skip type checking all .d.ts files. */
   },
   
- /*"include": [
-  "types/express.d.ts"  // Correct path to include the express type definition file
-]*/
- 
+ "include": ["src", "types"]
 }
 
 

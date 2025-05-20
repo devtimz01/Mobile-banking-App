@@ -13,7 +13,7 @@ Router.post('/createAccount',validator(validationSchema.userAccountSchema),Auth(
     controller.createAccountNumber(req,res);
 })
 
-Router.get('/:id',(req:Request,res:Response)=>{
+Router.get('/:id',Auth(),(req:Request,res:Response)=>{
     controller.findAccount(req,res);
 })
 Router.get('/findAllAccount',Auth(),(req:Request,res:Response)=>{

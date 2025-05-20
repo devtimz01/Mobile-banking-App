@@ -2,6 +2,7 @@ import { IaccountInfoCreationBody,IaccountInfo } from "../interfaces/account-int
 import AccountService from "../service/account-info-service";
 import { Request,Response } from "express";
 import logger from "../utils/index.log";
+import { Iuser } from "../interfaces/user-interface";
 
 class Account{
     private accountService:AccountService
@@ -57,5 +58,4 @@ class Account{
     }
 };
 export default Account;
-
 

@@ -31,11 +31,11 @@ export const Auth=()=>{
               if(!user){
                throw new Error('user not found')             
               } 
-              req.body.user =user;
+              req.user = user;
               next();}  
         else{
             throw new TypeError('bearer token not found')           
-        }
+        }  
         }
     catch(err){
        // logger.error(err)
