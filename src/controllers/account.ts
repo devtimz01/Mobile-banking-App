@@ -52,7 +52,8 @@ class Account{
             }
             return res.status(200).json({allAccount});
         }catch(err){
-            logger.error(err)
+           // logger.error(err)
+            console.log(err)
             return res.status(500).send("server error")   
         }  
     }

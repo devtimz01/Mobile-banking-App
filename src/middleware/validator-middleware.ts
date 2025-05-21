@@ -2,7 +2,6 @@ import {Schema} from 'yup';
 import { Request,Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import logger from '../utils/index.log';
 import { userService } from '../routes/authRoute';
 import { Iuser } from '../interfaces/user-interface';
 dotenv.config();

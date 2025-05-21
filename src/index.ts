@@ -4,7 +4,6 @@ import Dbinitialize from '../src/Database/init'
 dotenv.config();
 import Router from './routes/authRoute';
 import accountRouter from './routes/account-routes'
-//import './types/express'; 
 
 const SERVERPORT =process.env.SERVERPORT
 const app = express();
@@ -21,7 +20,7 @@ app.use('/api/account', accountRouter);
         });
     }
     catch(err){
-        console.log(err)
+          console.log(err)
     }
  };
  
