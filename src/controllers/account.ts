@@ -45,7 +45,7 @@ class Account{
 
      async findAllAccount(req:Request,res:Response){
         try{
-            const params ={...req.body};
+            const params = {...req.body}
             const allAccount = await this.accountService.findAll(params.user.id)
             if(!allAccount){
                 return res.status(404).send("user account not found")
@@ -53,8 +53,8 @@ class Account{
             return res.status(200).json({allAccount});
         }catch(err){
            // logger.error(err)
-            console.log(err)
-            return res.status(500).send("server error")   
+            console.error(err)
+           // return res.status(500).send("server error")   
         }  
     }
 };
