@@ -18,7 +18,7 @@ export const validator=(schema:Schema<any>)=>{
     }
 };
 
-export const Auth=()=>{
+  export const Auth=()=>{
     return async(req:Request,res:Response,next:NextFunction): Promise<void>=>{
         try{
             let token: string;
@@ -35,7 +35,7 @@ export const Auth=()=>{
         else{
             throw new TypeError('bearer token not found')           
         }  
-        }
+        } 
     catch(err){
        // logger.error(err)
         console.log(err)
@@ -44,3 +44,5 @@ export const Auth=()=>{
     }
     }
 }; 
+
+

@@ -3,6 +3,7 @@ import AccountService from "../service/account-info-service";
 import { Request,Response } from "express";
 import logger from "../utils/index.log";
 import { Iuser } from "../interfaces/user-interface";
+import { error } from "console";
 
 class Account{
     private accountService:AccountService
@@ -45,18 +46,18 @@ class Account{
 
      async findAllAccount(req:Request,res:Response){
         try{
-            const params = {...req.body}
-            const allAccount = await this.accountService.findAll(params.user.id)
+           // const user= req.user.id
+            const allAccount = await this.accountService.findAll(req.user.id)
             if(!allAccount){
                 return res.status(404).send("user account not found")
             }
             return res.status(200).json({allAccount});
         }catch(err){
            // logger.error(err)
-            console.error(err)
-           // return res.status(500).send("server error")   
+            console.log(err)
+            return res.status(500).send("server error")   
         }  
     }
 };
-export default Account;
 
+export default Account;
