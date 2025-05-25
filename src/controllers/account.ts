@@ -2,8 +2,6 @@ import { IaccountInfoCreationBody,IaccountInfo } from "../interfaces/account-int
 import AccountService from "../service/account-info-service";
 import { Request,Response } from "express";
 import logger from "../utils/index.log";
-import { Iuser } from "../interfaces/user-interface";
-import { error } from "console";
 
 class Account{
     private accountService:AccountService
@@ -55,9 +53,14 @@ class Account{
         }catch(err){
            // logger.error(err)
             console.log(err)
-            return res.status(500).send("server error")   
+            return res.status(500).send("server error")
         }  
     }
 };
 
 export default Account;
+
+
+
+
+
