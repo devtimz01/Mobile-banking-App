@@ -1,22 +1,35 @@
-import { Model, Optional } from "sequelize";
+import { Model, Optional ,Transaction} from "sequelize";
 
 //transaction type in JSON
-interface Itransaction{
+interface ItransactionDetail{
+    gateway?: string;
+    recieverAccountNumber: string;
+}
+
+export interface Itransaction{
     id: string;
     refId:string;
-
+    userId:string;
+    accountId: string;
+    type: string;
+    status:string;
+    amount:number;
+    details:ItransactionDetail;
+    createdAt:String;
+    updatedAt: string;
 };
-interface IfindTransaction{
+export interface IfindTransaction{
     where:{
         [key:string]: string
     },
     raw?: boolean,
+    transaction?: Transaction,
     returning:boolean
 };
 
-interface ItransactionCreationBody extends Optional<Itransaction,"id">{}
-interface ItransactionModel extends Model<Itransaction, ItransactionCreationBody>,Itransaction{}
-interface ItransactionDataSource{
+export interface ItransactionCreationBody extends Optional<Itransaction,"id"|"createdAt"|"updatedAt">{}
+export interface ItransactionModel extends Model<Itransaction, ItransactionCreationBody>,Itransaction{}
+export interface ItransactionDataSource{
     create(record: ItransactionCreationBody): Promise<Itransaction>;
     fetch(query:IfindTransaction):Promise<Itransaction | null>
 };

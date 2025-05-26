@@ -68,7 +68,7 @@ class AccountService{
       } as IfindAccounts
      return  await this.dataSource.fetchOne(query)
    }
-
-}
+   
+};
 
 export default AccountService;

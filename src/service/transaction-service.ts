@@ -7,7 +7,7 @@ class TransactionService{
     async intiatePayment(){
         //send paystack paymentInitiation Url
         //transfer method:card
-          
+            
     }
     
     async verifyTransactions(){}
@@ -17,7 +17,7 @@ class TransactionService{
     async realBankTransfer(){
 
     }
-    async requestLloan(){
+    async requestLoan(){
 
     }
     //sort beneficiaries logic:last5 or more
