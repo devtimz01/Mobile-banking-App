@@ -1,7 +1,8 @@
 import { DataTypes, json } from 'sequelize'
 import Db from '../Database/index'
 import { ItransactionModel } from '../interfaces/transaction-interface'
-import { allColors } from 'winston/lib/winston/config'
+import utility from '../utils/parse-Json';
+import { array, ArraySchema } from 'yup';
 
 const transactionModel = Db.define<ItransactionModel>('transactionodel',{
     id:{
@@ -55,10 +56,32 @@ const transactionModel = Db.define<ItransactionModel>('transactionodel',{
     updatedAt:'updatedAt',
     createdAt:'createdAt',
     hooks:{
-    //stringify JSON, parse to JSON to store
-        beforeCreate:{
-            if(transaction,createdAt &&typeof.transaction.createdAt==json){
-                
+    //stringify JSON, parse to JSON to store in sequelize;
+        beforeCreate:async(transaction,options)=>{
+            if(transaction.details && typeof transaction.details=="object"){
+                transaction.details= JSON.stringify(transaction.details) as any;
+            }
+        },
+        beforeUpdate:async(transaction,options)=>{
+            if(transaction.details && typeof transaction.details=="object"){
+                transaction.details= JSON.stringify(transaction.details) as any;
+            }
+        },
+        afterCreate:async(transaction:any,options)=>{
+            if(transaction.details && typeof transaction.details=="string"){
+                transaction.details= utility.parseObject(transaction.details) 
+            }
+        },
+        afterFind:async(transaction:any,options)=>{
+            if(Array.isArray(transaction)){
+                transaction.forEach((tx,index)=>{
+                    if(tx.details && typeof tx.details=="string"){
+                        tx.details= utility.parseObject(tx.details)
+                    }
+                })
+            }
+            else(transaction.details && typeof transaction.details=="string"){
+                transaction.details= utility.parseObject(transaction.details)
             }
         }
     }
