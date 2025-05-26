@@ -7,7 +7,7 @@ class Transaction{
         this.transactionService =_transactionDto;
     }
 
-    async initializeDeposit(req:Request,res:Response){
+    async initiateDeposit(req:Request,res:Response){
         
     }
 };

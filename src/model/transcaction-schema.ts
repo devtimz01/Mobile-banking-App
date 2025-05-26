@@ -2,7 +2,6 @@ import { DataTypes, json } from 'sequelize'
 import Db from '../Database/index'
 import { ItransactionModel } from '../interfaces/transaction-interface'
 import utility from '../utils/parse-Json';
-import { array, ArraySchema } from 'yup';
 
 const transactionModel = Db.define<ItransactionModel>('transactionodel',{
     id:{
@@ -80,12 +79,15 @@ const transactionModel = Db.define<ItransactionModel>('transactionodel',{
                     }
                 })
             }
-            else(transaction.details && typeof transaction.details=="string"){
-                transaction.details= utility.parseObject(transaction.details)
+            else{
+               if(transaction.details && typeof transaction.details=="string"){
+                transaction.details= utility.parseObject(transaction.details)};
             }
         }
     }
 });
+
+export default transactionModel;
 
 
 
