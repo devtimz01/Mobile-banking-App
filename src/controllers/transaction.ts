@@ -1,14 +1,22 @@
 import TransactionService from "../service/transaction-service";
 import { Request,Response } from "express";
+import logger from "../utils/index.log";
 
 class Transaction{
-    transactionService: TransactionService
-    constructor(_transactionDto:TransactionService){
-        this.transactionService =_transactionDto;
+    
+    constructor(){
+        
     }
 
     async initiateDeposit(req:Request,res:Response){
-        
+        try{
+            const params= {...req.body}
+            const deposit= await TransactionService.intiatePayment(params.user.email, params.amount)
+            return res.status(201).send("deposit successfully initiated")
+        }catch(err){
+            logger.error(err)
+            return res.status(500).send('deposit not initated, server error')
+        }      
     }
 };
 

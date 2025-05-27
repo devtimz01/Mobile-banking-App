@@ -4,10 +4,11 @@ class TransactionService{
 
     }
 
-    async intiatePayment(){
+   static async intiatePayment(record:string,amount:string){
         //send paystack paymentInitiation Url
         //transfer method:card
-            
+        
+        
     }
     
     async verifyTransactions(){}
