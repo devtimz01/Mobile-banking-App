@@ -2,9 +2,6 @@ import AccountDataSource from "../DataSource/account-datasource"
 import { IaccountInfo, IaccountInfoCreationBody, IfindAccounts } from "../interfaces/account-interface"
 import { AccountStatus } from "../enums/account-enums";
 import crypto from "crypto"
-import { Iuser } from "../interfaces/user-interface";
-import { where } from "sequelize";
-import { raw } from "express";
 
 class AccountService{
    dataSource: AccountDataSource

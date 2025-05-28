@@ -1,3 +1,4 @@
+import { SrvRecord } from "dns";
 import { Model, Optional ,Transaction} from "sequelize";
 
 //transaction type in JSON
@@ -5,7 +6,11 @@ interface ItransactionDetail{
     gateway?: string;
     recieverAccountNumber: string;
 }
-
+export interface IpaymentObject{
+    authorization_url: string;
+    access_code: String;
+    reference: string;
+}
 export interface Itransaction{
     id: string;
     refId:string;

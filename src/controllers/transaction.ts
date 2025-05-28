@@ -7,11 +7,10 @@ class Transaction{
     constructor(){
         
     }
-
     async initiateDeposit(req:Request,res:Response){
         try{
             const params= {...req.body}
-            const deposit= await TransactionService.intiatePayment(params.user.email, params.amount)
+            const deposit= await TransactionService.paymentUrlLink(params.user.email, params.amount)
             return res.status(201).send("deposit successfully initiated")
         }catch(err){
             logger.error(err)
