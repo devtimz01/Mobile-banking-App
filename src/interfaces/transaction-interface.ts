@@ -1,4 +1,3 @@
-import { SrvRecord } from "dns";
 import { Model, Optional ,Transaction} from "sequelize";
 
 //transaction type in JSON

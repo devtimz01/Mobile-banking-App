@@ -17,7 +17,6 @@ export const validator=(schema:Schema<any>)=>{
         }
     }
 };
-
   export const Auth=()=>{
     return async(req:Request,res:Response,next:NextFunction): Promise<void>=>{
         try{

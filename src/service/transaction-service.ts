@@ -1,60 +1,25 @@
-import { IpaymentObject } from "../interfaces/transaction-interface";
-import {v4 as uuidv4} from 'uuid'
-import dotenv from 'dotenv'
-dotenv.config();
-import axios from "axios";
+import TransactionDataSource from "../DataSource/transaction-dataource";
+import { PaymentGateway } from "../enums/payment-enums";
+import { TransactionStatus, TransactionType } from "../enums/transaction-enums";
+import { Itransaction, ItransactionCreationBody } from "../interfaces/transaction-interface";
 
 class TransactionService{
-
-    private static async referenceLink(){
-        return uuidv4;
+    transactionDataSource: TransactionDataSource
+    constructor(_transactionDataSource: TransactionDataSource){
+        this.transactionDataSource= _transactionDataSource;
     }
-
-   public static async paymentUrlLink(email:string, amount:number):Promise<IpaymentObject| null>{
-        //send paystack paymentInitiation Url
-        //transfer method:card
-        try{
-            //amount in kobo
-            const amountInKobo = amount * 100
-            const params={
-                method:'[card]',
-                amount: amountInKobo,
-                email,
-                callback_url:`${process.env.CALLBACK_URL}` as string,
-                reference: TransactionService.referenceLink
-
+    async depositTransaction(Data: Partial<Itransaction>):Promise<Itransaction>{
+         const deposit={
+            ...Data,
+            type:TransactionType.DEPOSIT,
+            status: TransactionStatus.PENDING,
+            details:{
+                ...Data.details,
+                gateway:PaymentGateway.PAYSTACK,
             }
-            const config={
-             headers:{
-                 Authorization: `Bearer${process.env.THIRDPARTYAPI_SECRET_KEY}` as string,
-                "content-type": 'appliction/json'
-             }
-            }
-
-           const {data}= await axios.post("https://api.paystack.co/transaction/initialize",params,config)
-           if(data && data.status){
-            return data.data
-           }
-           return null;
-        }
-        catch(err){
-           return null;
-        }    
-    };
-    
-    async verifyTransactions(){}
-    async internalMoneyTransfer(){
-
-    }
-    async realBankTransfer(){
-
-    }
-    async requestLoan(){
-
-    }
-    //sort beneficiaries logic:last5 or more
-    async fetchOne(){}
-
+         } as Itransaction
+         return await this.transactionDataSource.createTransaction(deposit);
+    } 
 };
 
-export default TransactionService;
+export default TransactionService
