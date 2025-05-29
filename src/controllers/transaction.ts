@@ -2,7 +2,7 @@ import TransactionService from "../service/transaction-service";
 import { Request,Response } from "express";
 import logger from "../utils/index.log";
 import PaymentService from "../service/payment-service";
-import { Itransaction, ItransactionCreationBody } from "../interfaces/transaction-interface";
+import { Itransaction } from "../interfaces/transaction-interface";
 
 class TransactionController{  
     private transactionService: TransactionService 
@@ -27,9 +27,25 @@ class TransactionController{
             return res.status(201).json({deposit });
         }catch(err){
             logger.error(err)
-            return res.status(500).send('deposit not initated, server error')
+            return res.status(500).send('deposit not initated')
         }      
-    }
+    };
+    async verifyTransaction(req:Request,res:Response){
+        //get REFERENCE-LINK to verify transaction is successful
+        
+    };
+
+    async internMoneyTransfer(req:Request,res:Response){
+        //get REFERENCE-LINK to verify transaction is successful
+    };
+    async bankTransfer(req:Request,res:Response){
+        //get REFERENCE-LINK to verify transaction is successful
+    };
+
+    async getBeneficiaries(req:Request,res:Response){
+        //get REFERENCE-LINK to verify transaction is successful
+
+    };
 };
 
 export default TransactionController;

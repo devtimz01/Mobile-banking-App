@@ -20,14 +20,14 @@ class PaymentService{
                 email,
                 callback_url:`${process.env.CALLBACK_URL}` as string,
                 reference: PaymentService.referenceLink
+            };
 
-            }
             const config={
              headers:{
                  Authorization: `Bearer${process.env.THIRDPARTYAPI_SECRET_KEY}` as string,
                 "Content-Type": 'appliction/json'
              }
-            }
+            };
 
            const {data}= await axios.post("https://api.paystack.co/transaction/initialize",params,config)
            if(data && data.status){
@@ -51,7 +51,7 @@ class PaymentService{
 
     }
     //sort beneficiaries logic:last5 or more
-    async fetchOne(){}
+    async fetchBeneficiaries(){}
 
 };
 
