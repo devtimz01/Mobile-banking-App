@@ -9,7 +9,7 @@ const Router= express.Router();
 const transactionService = new TransactionService(new TransactionDataSource)
 const controller = new TransactionController(transactionService)
 
-Router.post('/deposit', validator(transactionValidationSchema.transactionSchema) ,Auth(),(req: Request ,res: Response)=>{
+Router.post('/deposit', validator(transactionValidationSchema.transactionSchema),Auth() ,(req: Request ,res: Response)=>{
      controller.initiateDeposit(req,res);
 });
 

@@ -18,7 +18,7 @@ export const validator=(schema:Schema<any>)=>{
     }
 };
   export const Auth=()=>{
-    return async(req:Request,res:Response,next:NextFunction): Promise<void>=>{
+    return async(req:Request,res:Response,next:NextFunction)=>{
         try{
             let token: string;
         if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
@@ -29,8 +29,9 @@ export const validator=(schema:Schema<any>)=>{
               if(!user){
                throw new Error('user not found')             
               } 
-              req.user = user;
-              next();}  
+              req.user = user
+              next();
+            }  
         else{
             throw new TypeError('bearer token not found')           
         }  
@@ -38,8 +39,7 @@ export const validator=(schema:Schema<any>)=>{
     catch(err){
        // logger.error(err)
         console.log(err)
-        res.status(500).send("error authenticating user")  
-        return;
+        res.status(401).send("error authenticating user")  
     }
     }
 }; 
