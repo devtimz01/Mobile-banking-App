@@ -16,7 +16,7 @@ class TransactionController{
              if(!depositInfo){
                 return res.status(500).send("depositURlLink error")}   
             const newTransaction={
-                userId: params.userId,
+                userId: req.user.id,
                 accountId: params.accountId,
                 amount: params.amount,
                 refId: depositInfo.reference,
