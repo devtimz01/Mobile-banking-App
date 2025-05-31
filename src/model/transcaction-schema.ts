@@ -3,7 +3,7 @@ import Db from '../Database/index'
 import { ItransactionModel } from '../interfaces/transaction-interface'
 import utility from '../utils/parse-Json';
 
-const transactionModel = Db.define<ItransactionModel>('transactionodel',{
+const transactionModel = Db.define<ItransactionModel>('transactionModel',{
     id:{
         type: DataTypes.UUID,
         allowNull:false,

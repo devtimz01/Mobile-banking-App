@@ -6,7 +6,7 @@ import axios from "axios";
 
 class PaymentService{
     private static async referenceLink(){
-        return uuidv4;
+        return uuidv4();
     }
    public static async paymentUrlLink(email:string, amount:number):Promise<IpaymentObject| null>{
         //send paystack paymentInitiation Url
@@ -19,13 +19,13 @@ class PaymentService{
                 amount: amountInKobo,
                 email,
                 callback_url:`${process.env.CALLBACK_URL}` as string,
-                reference: PaymentService.referenceLink
+                reference: await PaymentService.referenceLink()
             };
 
             const config={
              headers:{
-                 Authorization: `Bearer${process.env.THIRDPARTYAPI_SECRET_KEY}` as string,
-                "Content-Type": 'appliction/json'
+                 Authorization: `Bearer ${process.env.THIRDPARTYAPI_SECRET_KEY}` as string,
+                "Content-Type": 'application/json'
              }
             };
 
@@ -36,6 +36,7 @@ class PaymentService{
            return null;
         }
         catch(err){
+            console.log(err)
            return null;
         }    
     };

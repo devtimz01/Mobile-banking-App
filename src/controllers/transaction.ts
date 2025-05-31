@@ -37,15 +37,14 @@ class TransactionController{
     };
 
     async internMoneyTransfer(req:Request,res:Response){
-        //get REFERENCE-LINK to verify transaction is successful
+       
     };
     async bankTransfer(req:Request,res:Response){
-        //get REFERENCE-LINK to verify transaction is successful
+        
     };
 
     async getBeneficiaries(req:Request,res:Response){
-        //get REFERENCE-LINK to verify transaction is successful
-
+        
     };
 };
 
