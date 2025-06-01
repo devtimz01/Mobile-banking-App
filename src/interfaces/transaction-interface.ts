@@ -7,7 +7,7 @@ interface ItransactionDetail{
 }
 export interface IpaymentObject{
     authorization_url: string;
-    access_code: String;
+    access_code: string;
     reference: string;
 }
 export interface Itransaction{
