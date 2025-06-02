@@ -23,7 +23,7 @@ class TransactionController{
                 details:{}
             } as Itransaction
             const deposit = await this.transactionService.depositTransaction(newTransaction)
-            return res.status(201).json({deposit });
+            return res.status(201).json({deposit, depositInfo});
         }catch(err){
             //logger.error(err)
             console.log(err)
