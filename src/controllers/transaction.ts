@@ -33,14 +33,16 @@ class TransactionController{
     async verifyTransaction(req:Request,res:Response){
         //get REFERENCE-LINK to verify transaction is successful
         try{
-            const refId = req.params;
-            
+            const params ={...req.body};
+            const refId = await PaymentService.paymentUrlLink(params.reference,params.amount)
+            if(!refId){
+                return res.status(404).send("referenceId not found")
+            }
+
         }catch(err){
             logger.error(err)
             return res.status(500).send("failed to verify transaction")
-        }
-
-    
+        }  
     };
 
     async internalMoneyTransfer(req:Request,res:Response){

@@ -21,8 +21,9 @@ class TransactionService{
          return await this.transactionDataSource.createTransaction(deposit);
     } 
     async verifyTransaction(){
-        
+
     }
+    async fetchTransaction(){}
 };
 
 export default TransactionService
