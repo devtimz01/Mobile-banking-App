@@ -34,11 +34,11 @@ class TransactionController{
         //get REFERENCE-LINK to verify transaction is successful
         try{
             const params ={...req.body};
-            const refId = await PaymentService.paymentUrlLink(params.reference,params.amount)
+            const refId = await PaymentService.paymentUrlLink(req.user.email,params.reference)
             if(!refId){
                 return res.status(404).send("referenceId not found")
             }
-
+            
         }catch(err){
             logger.error(err)
             return res.status(500).send("failed to verify transaction")
