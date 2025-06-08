@@ -3,7 +3,6 @@ import {v4 as uuidv4} from 'uuid'
 import dotenv from 'dotenv'
 dotenv.config();
 import axios from "axios";
-import { error } from "console";
 
 class PaymentService{
     private static async referenceLink(){

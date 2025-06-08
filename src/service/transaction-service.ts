@@ -20,6 +20,9 @@ class TransactionService{
          } as Itransaction
          return await this.transactionDataSource.createTransaction(deposit);
     } 
+    async verifyTransaction(){
+        
+    }
 };
 
 export default TransactionService

@@ -25,24 +25,30 @@ class TransactionController{
             const deposit = await this.transactionService.depositTransaction(newTransaction)
             return res.status(201).json({deposit, depositInfo});
         }catch(err){
-            //logger.error(err)
-            console.log(err)
+            logger.error(err)
             return res.status(500).send('deposit not initated')
         }      
     };
 
     async verifyTransaction(req:Request,res:Response){
         //get REFERENCE-LINK to verify transaction is successful
+        try{
+            const refId = req.params;
+            
+        }catch(err){
+            logger.error(err)
+            return res.status(500).send("failed to verify transaction")
+        }
 
+    
     };
 
-    async internMoneyTransfer(req:Request,res:Response){
+    async internalMoneyTransfer(req:Request,res:Response){
        
     };
     async bankTransfer(req:Request,res:Response){
         
     };
-
     async getBeneficiaries(req:Request,res:Response){
         
     };
