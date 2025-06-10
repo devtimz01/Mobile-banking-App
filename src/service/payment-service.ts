@@ -40,7 +40,30 @@ class PaymentService{
         }    
     };
     
-    async verifyTransactions(){}
+   public static async verifyTransactions(reference: string,amount: number): Promise<Boolean>{
+        try{
+            const config={
+             headers:{
+                 Authorization: `Bearer ${process.env.THIRDPARTYAPI_SECRET_KEY}` as string,
+                "Content-Type": 'application/json'
+             }
+            };
+
+           const {data}= await axios.get(`https://api.paystack.co/transaction/verify/${reference}`,config)
+           if(data && data.status){
+            const {amount:amountInKobo}= data.data
+            if(amountInKobo !== (amount * 100)){
+                return false
+            }
+            return true
+           }
+           return false;
+
+        }catch(err){
+            return false;
+        }
+
+    }
     async internalMoneyTransfer(){
 
     }

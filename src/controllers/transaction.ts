@@ -9,6 +9,9 @@ class TransactionController{
     constructor(_transactionService:TransactionService){
         this.transactionService= _transactionService
     };
+    private static async deposit(){
+        
+    }
      async initiateDeposit(req:Request,res:Response){
         try{
             const params= {...req.body}
@@ -34,11 +37,16 @@ class TransactionController{
         //get REFERENCE-LINK to verify transaction is successful
         try{
             const params ={...req.body};
-            const refId = await PaymentService.paymentUrlLink(req.user.email,params.reference)
-            if(!refId){
+            const transaction = await this.transactionService.fetchTransactionByRef(params.reference)
+            if(!transaction){
+                //use helper functions to return responses
                 return res.status(404).send("referenceId not found")
+            };
+            if(!transaction.status != transaction.IN_PROGRESS){
+                return res.status(422).send("transaction not supported")
             }
-            
+            const verifyTransaction = await PaymentService.verifyTransactions(params.reference,params.amount)
+            //const deposit = await this.initiateDeposit(transaction.id, transaction.accountId, transaction.amount)
         }catch(err){
             logger.error(err)
             return res.status(500).send("failed to verify transaction")
