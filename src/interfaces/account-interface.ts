@@ -1,4 +1,4 @@
-import { Model, Optional } from "sequelize";
+import { Model, Optional, Transaction ,FindOptions} from "sequelize";
 
 export interface IaccountInfo{
     id: string;
@@ -17,6 +17,7 @@ export interface IaccountInfo{
         [key:string]:string
     },
     raw?: boolean;
+    transaction?: Transaction
     returning: boolean
 }
 
@@ -25,5 +26,5 @@ export interface IaccountModel extends Model<IaccountInfo, IaccountInfoCreationB
 export interface IaccountDataSource{
     fetchOne(query:IfindAccounts):Promise<IaccountInfo | null>
     create(record: IaccountInfoCreationBody):Promise<IaccountInfo>
-    findAllAccount(filter: IfindAccounts):Promise<IaccountInfo[]>
+    findAllAccount(filter: FindOptions<IfindAccounts>):Promise<IaccountInfo[]>
 };

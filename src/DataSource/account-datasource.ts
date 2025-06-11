@@ -13,6 +13,7 @@ class AccountDataSource implements IaccountDataSource{
     async findAllAccount(filter: FindOptions<IaccountInfo>): Promise<IaccountInfo[]> {
        return await accountModel.findAll(filter)
     }
+    async updateOne(){}
 };
 
 export default AccountDataSource;

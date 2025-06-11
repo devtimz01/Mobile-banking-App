@@ -2,6 +2,7 @@ import AccountDataSource from "../DataSource/account-datasource"
 import { IaccountInfo, IaccountInfoCreationBody, IfindAccounts } from "../interfaces/account-interface"
 import { AccountStatus } from "../enums/account-enums";
 import crypto from "crypto"
+import sequelize from "../Database";
 
 class AccountService{
    dataSource: AccountDataSource
@@ -64,7 +65,18 @@ class AccountService{
          raw:true
       } as IfindAccounts
      return  await this.dataSource.fetchOne(query)
-   }
+   };
+
+   async topUpBalance(accountId: string, amount: number, options: Partial<IfindAccounts>={}){
+      const filter={
+         where:{id:accountId},...options
+      }
+      const update ={
+         balance: sequelize.literal(`balance+${amount}`)
+      }
+      return await this.dataSource.updateOne(update,filter)
+      
+   };
    
 };
 

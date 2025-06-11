@@ -3,14 +3,29 @@ import { Request,Response } from "express";
 import logger from "../utils/index.log";
 import PaymentService from "../service/payment-service";
 import { Itransaction } from "../interfaces/transaction-interface";
+import sequelize from "../Database";
+import { Transaction } from "sequelize";
+import AccountService from "../service/account-info-service";
 
 class TransactionController{  
     private transactionService: TransactionService 
-    constructor(_transactionService:TransactionService){
+    private accountService: AccountService
+    constructor(_transactionService:TransactionService, _accountService: AccountService){
         this.transactionService= _transactionService
+        this.accountService =_accountService
     };
-    private static async deposit(){
-        
+
+    private async deposit(){
+        //keep track of transactons and reverse failed transaction + topup balance + update transaction status
+        const tx =await sequelize transaction()
+        try{
+            await this.accountService.topUpBalance(accountId,amount,{transaction:tx})
+            await this.transactionService.setStatus()
+            await tx.commit();
+
+        }catch(err){
+            await tx.rollback();
+        }
     }
      async initiateDeposit(req:Request,res:Response){
         try{
@@ -46,7 +61,7 @@ class TransactionController{
                 return res.status(422).send("transaction not supported")
             }
             const verifyTransaction = await PaymentService.verifyTransactions(params.reference,params.amount)
-            //const deposit = await this.initiateDeposit(transaction.id, transaction.accountId, transaction.amount)
+            const deposit = await this.deposit(transaction.id, transaction.accountId, transaction.amount)
         }catch(err){
             logger.error(err)
             return res.status(500).send("failed to verify transaction")
