@@ -1,4 +1,4 @@
-import { where } from "sequelize";
+import { Transaction, where } from "sequelize";
 import TransactionDataSource from "../DataSource/transaction-dataource";
 import { PaymentGateway } from "../enums/payment-enums";
 import { TransactionStatus, TransactionType } from "../enums/transaction-enums";
@@ -24,12 +24,12 @@ class TransactionService{
     async fetchTransactionByRef(reference: string):Promise<Itransaction|null>{
         const query={
             where:{reference},
-            raw: true
-        }
+            raw: true,
+            returning: true
+        } 
         return await this.transactionDataSource.fetch(query)
-
     }
-    async setStatus(){
+    async setStatus(id: string, status: string, options:Partial<IfindTransaction>={}){
         
     }
 

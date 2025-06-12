@@ -6,6 +6,7 @@ import { Itransaction } from "../interfaces/transaction-interface";
 import sequelize from "../Database";
 import { Transaction } from "sequelize";
 import AccountService from "../service/account-info-service";
+import { TransactionStatus } from "../enums/transaction-enums";
 
 class TransactionController{  
     private transactionService: TransactionService 
@@ -15,18 +16,17 @@ class TransactionController{
         this.accountService =_accountService
     };
 
-    private async deposit(){
+    private async deposit(id:string, accountId:string, amount:number){
         //keep track of transactons and reverse failed transaction + topup balance + update transaction status
-        const tx =await sequelize transaction()
+        const tx =await sequelize.transaction()
         try{
             await this.accountService.topUpBalance(accountId,amount,{transaction:tx})
-            await this.transactionService.setStatus()
+            await this.transactionService.setStatus(id, TransactionStatus.FINALIZED,{transaction:tx})
             await tx.commit();
-
         }catch(err){
             await tx.rollback();
         }
-    }
+    };
      async initiateDeposit(req:Request,res:Response){
         try{
             const params= {...req.body}
@@ -57,7 +57,7 @@ class TransactionController{
                 //use helper functions to return responses
                 return res.status(404).send("referenceId not found")
             };
-            if(!transaction.status != transaction.IN_PROGRESS){
+            if(transaction.status != TransactionStatus.PROCESSING){
                 return res.status(422).send("transaction not supported")
             }
             const verifyTransaction = await PaymentService.verifyTransactions(params.reference,params.amount)
