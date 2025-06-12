@@ -35,6 +35,7 @@ export interface ItransactionCreationBody extends Optional<Itransaction,"id"|"cr
 export interface ItransactionModel extends Model<Itransaction, ItransactionCreationBody>,Itransaction{}
 export interface ItransactionDataSource{
     create(record: ItransactionCreationBody): Promise<Itransaction>;
-    fetch(query:IfindTransaction):Promise<Itransaction | null>
+    fetch(query:IfindTransaction):Promise<Itransaction | null>;
+    updateOne(sortBy: IfindTransaction, data: Partial<Itransaction>):Promise<void>; 
 };
 

@@ -27,4 +27,5 @@ export interface IaccountDataSource{
     fetchOne(query:IfindAccounts):Promise<IaccountInfo | null>
     create(record: IaccountInfoCreationBody):Promise<IaccountInfo>
     findAllAccount(filter: FindOptions<IfindAccounts>):Promise<IaccountInfo[]>
+    updateOne(sortBy: IfindAccounts, data: Partial<IaccountInfo>):Promise<void>;
 };

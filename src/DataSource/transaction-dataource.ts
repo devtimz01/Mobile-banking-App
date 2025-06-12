@@ -8,7 +8,9 @@ class TransactionDataSource{
     async fetch(query:IfindTransaction):Promise<Itransaction | null>{
         return await transactionModel.findOne(query)
     }
-     
+     async updateOne(sortBy: IfindTransaction, data: Partial<Itransaction>):Promise<void>{
+        await transactionModel.update(data, sortBy);
+     }
 };
 
 export default TransactionDataSource;
