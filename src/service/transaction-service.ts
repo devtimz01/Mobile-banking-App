@@ -3,7 +3,6 @@ import TransactionDataSource from "../DataSource/transaction-dataource";
 import { PaymentGateway } from "../enums/payment-enums";
 import { TransactionStatus, TransactionType } from "../enums/transaction-enums";
 import { IfindTransaction, IpaymentObject, Itransaction, ItransactionCreationBody } from "../interfaces/transaction-interface";
-import { raw } from "express";
 
 class TransactionService{
     transactionDataSource: TransactionDataSource
@@ -30,18 +29,14 @@ class TransactionService{
         } 
         return await this.transactionDataSource.fetch(query)
     }
-    async setStatus(Id:string, status: string, options:Partial<IfindTransaction>={}){
+    async setStatus(id:string, status: string, options:Partial<IfindTransaction>={}){
         const filter={
-            where:{
-                id,...options
-            },
+            where:{id},...options,
             raw: true
         }
-        const update={
-            status
-        }
+        const update={ status }
         return await this.transactionDataSource.updateOne(filter,update)
     };
 };
 
-export default TransactionService
+export default TransactionService;

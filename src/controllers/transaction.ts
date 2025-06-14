@@ -4,7 +4,6 @@ import logger from "../utils/index.log";
 import PaymentService from "../service/payment-service";
 import { Itransaction } from "../interfaces/transaction-interface";
 import sequelize from "../Database";
-import { Transaction } from "sequelize";
 import AccountService from "../service/account-info-service";
 import { TransactionStatus } from "../enums/transaction-enums";
 
@@ -62,6 +61,7 @@ class TransactionController{
             }
             const verifyTransaction = await PaymentService.verifyTransactions(params.reference,params.amount)
             const deposit = await this.deposit(transaction.id, transaction.accountId, transaction.amount)
+            return res.status(201).json({verifyTransaction,deposit});
         }catch(err){
             logger.error(err)
             return res.status(500).send("failed to verify transaction")
@@ -69,14 +69,20 @@ class TransactionController{
     };
 
     async internalMoneyTransfer(req:Request,res:Response){
-       
+        const params= {...req.body}
+        
     };
+
     async bankTransfer(req:Request,res:Response){
         
     };
     async getBeneficiaries(req:Request,res:Response){
         
     };
+    async loanRequest(req: Request,res: Response){}
+    async billPayment(req:Request, res:Response){}
+    async securityCheck(req:Request,res: Response){}
+
 };
 
 export default TransactionController;

@@ -76,7 +76,6 @@ class AccountService{
       }
       return await this.dataSource.updateOne(filter,update)
    };
-   
 };
 
 export default AccountService;
