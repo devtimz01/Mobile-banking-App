@@ -33,7 +33,7 @@ class TransactionService{
         const filter={
             where:{id},...options,
             raw: true
-        }
+        } 
         const update={ status }
         return await this.transactionDataSource.updateOne(filter,update)
     };

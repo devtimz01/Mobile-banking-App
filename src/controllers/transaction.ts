@@ -69,19 +69,18 @@ class TransactionController{
     };
 
     async internalMoneyTransfer(req:Request,res:Response){
-        const params= {...req.body}
+        const params= {...req.body};
         
     };
 
     async bankTransfer(req:Request,res:Response){
-        
     };
     async getBeneficiaries(req:Request,res:Response){
         
     };
     async loanRequest(req: Request,res: Response){}
     async billPayment(req:Request, res:Response){}
-    async securityCheck(req:Request,res: Response){}
+    async fraudCheck(req:Request,res: Response){}
 
 };
 

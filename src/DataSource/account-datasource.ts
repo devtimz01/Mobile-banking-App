@@ -13,8 +13,8 @@ class AccountDataSource implements IaccountDataSource{
     async findAllAccount(filter: FindOptions<IaccountInfo>): Promise<IaccountInfo[]> {
        return await accountModel.findAll(filter)
     }
-   async updateOne(sortBy: IfindAccounts, data: Partial<IaccountInfo>): Promise<void> {
-       await accountModel.update(data,sortBy)
+   async updateOne(data: Partial<IaccountInfo>,sortBy: IfindAccounts): Promise<void> {
+       await accountModel.update(data, sortBy)
    }
 };
 

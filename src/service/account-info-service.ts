@@ -70,12 +70,13 @@ class AccountService{
    async topUpBalance(accountId: string, amount: number, options: Partial<IfindAccounts>={}){
       const filter={
          where:{id:accountId},...options
-      }
+      } 
       const update ={
          balance: sequelize.literal(`balance+${amount}`)
       }
-      return await this.dataSource.updateOne(filter,update)
+      return await this.dataSource.updateOne(filter , update as any);
    };
 };
 
 export default AccountService;
+
