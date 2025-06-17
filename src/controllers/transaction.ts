@@ -23,6 +23,7 @@ class TransactionController{
             await this.transactionService.setStatus(id, TransactionStatus.FINALIZED,{transaction:tx})
             await tx.commit();
         }catch(err){
+            logger.error(err)
             await tx.rollback();
         }
     };
