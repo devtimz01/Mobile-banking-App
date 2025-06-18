@@ -69,9 +69,28 @@ class TransactionController{
         }  
     };
 
+    private async transfer(senderAccountId: Partial<Itransaction>,recieverAccountNumber: string, amount:number){
+        try{
+            const tx = await sequelize.transaction()
+             await tx.commit
+        }
+        catch(err){
+        }
+    }
     async internalMoneyTransfer(req:Request,res:Response){
+        try{
         const params= {...req.body};
-        
+        const senderAccountId = await this.accountService.findByField({id:params.senderId})
+        if(!senderAccountId){
+            return res.status(404).send("account not found");
+        }
+        if(senderAccountId.balance<= 0){
+            return res.status(422).send('insufficient fund')
+        }
+        const transfer =await this.transfer(senderAccountId, recieverAccountNumber, amount);
+        }catch(err){
+
+        }
     };
 
     async bankTransfer(req:Request,res:Response){
