@@ -68,7 +68,7 @@ class TransactionController{
             return res.status(500).send("failed to verify transaction")
         }  
     };
-    
+
     private async transfer(senderAccountId: string,recieverAccountNumber: string, amount:number){
     const tx = await sequelize.transaction();
         try{
@@ -80,7 +80,7 @@ class TransactionController{
         catch(err){
             await tx.rollback();
         }
-        };
+    };
     
     async internalMoneyTransfer(req:Request,res:Response){
        try{
@@ -94,7 +94,10 @@ class TransactionController{
 
         const recieverAccountNumber = await this.accountService.findByField({id:params.recieverAccountNumber})
             if(!recieverAccountNumber){
-                 return res.status(404).send("account not found");}    
+                 return res.status(404).send("account not found");} 
+            if(senderAccountId== recieverAccountNumber){
+                return res.status(433).send("accont number belongs to you , error initiating transfer")
+            }  
             const transfer =await this.transfer(senderAccountId.id, recieverAccountNumber.accountnumber, senderAccountId.balance);
         }
         catch(err){
@@ -103,7 +106,8 @@ class TransactionController{
     };
 
     async bankTransfer(req:Request,res:Response){
-        
+        const params ={...req.body}
+
     };
     async getBeneficiaries(req:Request,res:Response){
         
