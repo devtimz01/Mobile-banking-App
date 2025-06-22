@@ -1,4 +1,4 @@
-import { Model, Optional ,Transaction} from "sequelize";
+import { Model, Optional ,Transaction, FindOptions} from "sequelize";
 
 //transaction type in JSON
 interface ItransactionDetail{

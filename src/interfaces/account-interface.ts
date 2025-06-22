@@ -8,8 +8,7 @@ export interface IaccountInfo{
     type: string;
     status:string;
     createdAt: Date;
-    updatedAt: Date;
-    
+    updatedAt: Date;  
 }
 
  export interface IfindAccounts{

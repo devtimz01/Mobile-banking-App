@@ -68,32 +68,42 @@ class TransactionController{
             return res.status(500).send("failed to verify transaction")
         }  
     };
-
-    private async transfer(senderAccountId: Partial<Itransaction>,recieverAccountNumber: string, amount:number){
+    
+    private async transfer(senderAccountId: string,recieverAccountNumber: string, amount:number){
+    const tx = await sequelize.transaction();
         try{
-            const tx = await sequelize.transaction()
-             await tx.commit
+            await this.transactionService.createTx(senderAccountId, recieverAccountNumber, amount,{transaction:tx})
+            await this.accountService.topUpBalance(recieverAccountNumber,amount,{transaction:tx})
+            await this.accountService.topUpBalance(senderAccountId,-amount,{transaction:tx})
+            await tx.commit();
         }
         catch(err){
+            await tx.rollback();
         }
-    }
+        };
+    
     async internalMoneyTransfer(req:Request,res:Response){
-        try{
+       try{
         const params= {...req.body};
         const senderAccountId = await this.accountService.findByField({id:params.senderId})
-        if(!senderAccountId){
-            return res.status(404).send("account not found");
-        }
-        if(senderAccountId.balance<= 0){
-            return res.status(422).send('insufficient fund')
-        }
-        const transfer =await this.transfer(senderAccountId, recieverAccountNumber, amount);
-        }catch(err){
+            if(!senderAccountId){
+            return res.status(404).send("account not found");}
 
+            if(senderAccountId.balance<= 0){
+              return res.status(422).send('insufficient fund')}
+
+        const recieverAccountNumber = await this.accountService.findByField({id:params.recieverAccountNumber})
+            if(!recieverAccountNumber){
+                 return res.status(404).send("account not found");}    
+            const transfer =await this.transfer(senderAccountId.id, recieverAccountNumber.accountnumber, senderAccountId.balance);
         }
+        catch(err){
+            return res.status(500).send("transfer failed")
+        };
     };
 
     async bankTransfer(req:Request,res:Response){
+        
     };
     async getBeneficiaries(req:Request,res:Response){
         

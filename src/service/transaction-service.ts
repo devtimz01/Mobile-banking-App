@@ -1,8 +1,7 @@
-import { Transaction, where } from "sequelize";
 import TransactionDataSource from "../DataSource/transaction-dataource";
 import { PaymentGateway } from "../enums/payment-enums";
 import { TransactionStatus, TransactionType } from "../enums/transaction-enums";
-import { IfindTransaction, IpaymentObject, Itransaction, ItransactionCreationBody } from "../interfaces/transaction-interface";
+import { IfindTransaction, Itransaction } from "../interfaces/transaction-interface";
 
 class TransactionService{
     transactionDataSource: TransactionDataSource
@@ -21,6 +20,16 @@ class TransactionService{
          } as Itransaction
          return await this.transactionDataSource.createTransaction(deposit);
     } 
+    async createTx(senderAccountId: string, recieverAccountNumber: string,amount: number, options:Partial<IfindTransaction>={}){
+        const transaction={
+            type:TransactionType.TRANSFER,
+            status: TransactionStatus.FINALIZED,
+            details:{
+                gateway:PaymentGateway.PAYSTACK,
+            }
+        } as Itransaction
+        return await this.transactionDataSource.createTransaction(transaction);
+    }
     async fetchTransactionByRef(reference: string):Promise<Itransaction|null>{
         const query={
             where:{reference},
