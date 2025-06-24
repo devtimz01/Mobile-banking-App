@@ -116,8 +116,11 @@ class TransactionController{
         else{
             recipientId= receiverInfo.details.paystackBankCode
         }
-       }catch(err){}
+       }catch(err){
+        return res.status(500).send("bank transfer failed")
+       }
     };
+    
     async getBeneficiaries(req:Request,res:Response){
         
     };
