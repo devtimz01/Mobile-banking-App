@@ -107,7 +107,16 @@ class TransactionController{
 
     async bankTransfer(req:Request,res:Response){
         const params ={...req.body}
-
+       try{
+         let recipientId=''
+         const receiverInfo = await this.payeeService.findRecipient(params.accountNumber, params.bankCode)
+        if(!receiverInfo){
+            
+        }
+        else{
+            recipientId= receiverInfo.details.paystackBankCode
+        }
+       }catch(err){}
     };
     async getBeneficiaries(req:Request,res:Response){
         
