@@ -1,8 +1,8 @@
-class payeeService{
-    async findRecipient(){
+class PayeeService{
+    async findRecipient(recieverAccountNumber: number, bankCode: number){
 
     }
 
 };
 
-export default payeeService;
+export default PayeeService;

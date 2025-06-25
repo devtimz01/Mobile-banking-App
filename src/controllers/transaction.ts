@@ -6,13 +6,17 @@ import { Itransaction } from "../interfaces/transaction-interface";
 import sequelize from "../Database";
 import AccountService from "../service/account-info-service";
 import { TransactionStatus } from "../enums/transaction-enums";
+import PayeeService from "../service/payee-service";
 
 class TransactionController{  
     private transactionService: TransactionService 
     private accountService: AccountService
-    constructor(_transactionService:TransactionService, _accountService: AccountService){
+    private payeeservice: PayeeService
+
+    constructor(_transactionService:TransactionService, _accountService: AccountService,_payeeService: PayeeService){
         this.transactionService= _transactionService
         this.accountService =_accountService
+        this.payeeservice = _payeeService
     };
 
     private async deposit(id:string, accountId:string, amount:number){
@@ -109,7 +113,7 @@ class TransactionController{
         const params ={...req.body}
        try{
          let recipientId=''
-         const receiverInfo = await this.payeeService.findRecipient(params.accountNumber, params.bankCode)
+         const receiverInfo = await this.payeeservice.findRecipient(params.accountNumber, params.bankCode)
         if(!receiverInfo){
             
         }
@@ -120,9 +124,8 @@ class TransactionController{
         return res.status(500).send("bank transfer failed")
        }
     };
-    
+
     async getBeneficiaries(req:Request,res:Response){
-        
     };
     async loanRequest(req: Request,res: Response){}
     async billPayment(req:Request, res:Response){}
