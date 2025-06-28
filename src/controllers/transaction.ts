@@ -138,6 +138,18 @@ class TransactionController{
     async billPayment(req:Request, res:Response){}
     async fraudCheck(req:Request,res: Response){}
 
+    async getProfile(req:Request, res:Response){
+        const params = {...req.body}
+        try{
+            const userProfile = await this.accountService.findByField(params.user.id)
+            if(!userProfile)
+                return res.status(404).send("user profile not found");
+            return res.send(201).json({userProfile})
+        }catch(err){
+            return res.send(500).send("")
+        }
+    }
+
 };
 
 export default TransactionController;
