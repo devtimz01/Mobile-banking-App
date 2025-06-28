@@ -1,6 +1,7 @@
+@autoinjectible
 class PayeeService{
-    async findRecipient(recieverAccountNumber: number, bankCode: number){
-
+    async findRecipient(recieverAccountNumber: string, bankCode: number){
+        
     }
 
 };

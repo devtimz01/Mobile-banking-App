@@ -115,7 +115,7 @@ class TransactionController{
          let recipientId=''
          const receiverInfo = await this.payeeservice.findRecipient(params.accountNumber, params.bankCode)
         if(!receiverInfo){
-            
+
         }
         else{
             recipientId= receiverInfo.details.paystackBankCode
@@ -127,7 +127,14 @@ class TransactionController{
 
     async getBeneficiaries(req:Request,res:Response){
     };
-    async loanRequest(req: Request,res: Response){}
+    async loanRequest(req: Request,res: Response){
+        //various conditionals
+        const borower =req.user.id
+        const loanRequest = await this.loanService.fetchOne({borower})
+        if(loanRequest==LOAN_STATUS.PENDING){
+            return res.send(500).send("pending loan")
+        }
+    }
     async billPayment(req:Request, res:Response){}
     async fraudCheck(req:Request,res: Response){}
 
