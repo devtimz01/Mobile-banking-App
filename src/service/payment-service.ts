@@ -64,17 +64,6 @@ class PaymentService{
         }
 
     }
-    async internalMoneyTransfer(){
-
-    }
-    async realBankTransfer(){
-
-    }
-    async requestLoan(){
-
-    }
-    //sort beneficiaries logic:last5 or more
-    async fetchBeneficiaries(){}
 
 };
 

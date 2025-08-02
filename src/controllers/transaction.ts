@@ -7,8 +7,6 @@ import sequelize from "../Database";
 import AccountService from "../service/account-info-service";
 import { TransactionStatus } from "../enums/transaction-enums";
 import PayeeService from "../service/payee-service";
-import { error, info } from "console";
-import { level } from "winston";
 
 class TransactionController{  
     private transactionService: TransactionService 
