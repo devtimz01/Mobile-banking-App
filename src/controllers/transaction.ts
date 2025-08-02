@@ -68,11 +68,10 @@ class TransactionController{
             const deposit = await this.deposit(transaction.id, transaction.accountId, transaction.amount)
             return res.status(201).json({verifyTransaction,deposit});
         }catch(err){
-            logger.error(err)
+            logger.error("transaction verification failed")
             return res.status(500).send("failed to verify transaction")
         }  
     };
-    
 };
 
 export default TransactionController;
