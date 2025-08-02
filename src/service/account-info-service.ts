@@ -74,9 +74,10 @@ class AccountService{
       const update ={
          balance: sequelize.literal(`balance+${amount}`)
       }
-      return await this.dataSource.updateOne(filter , update as any);
+      return await this.dataSource.updateOne(filter as any, update as any);
    };
 };
+//queues,indopontecy Api to avoid duplicates..
 
 export default AccountService;
 

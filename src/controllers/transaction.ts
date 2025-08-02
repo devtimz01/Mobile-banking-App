@@ -7,6 +7,8 @@ import sequelize from "../Database";
 import AccountService from "../service/account-info-service";
 import { TransactionStatus } from "../enums/transaction-enums";
 import PayeeService from "../service/payee-service";
+import { error, info } from "console";
+import { level } from "winston";
 
 class TransactionController{  
     private transactionService: TransactionService 
@@ -47,8 +49,8 @@ class TransactionController{
             const deposit = await this.transactionService.depositTransaction(newTransaction)
             return res.status(201).json({deposit, depositInfo});
         }catch(err){
-            logger.error(err)
-            return res.status(500).send('deposit not initated')
+            logger.error("deposit not initiated")
+            return res.status(500).send('deposit not initiated')
         }      
     };
 
@@ -72,84 +74,7 @@ class TransactionController{
             return res.status(500).send("failed to verify transaction")
         }  
     };
-
-    private async transfer(senderAccountId: string,recieverAccountNumber: string, amount:number){
-    const tx = await sequelize.transaction();
-        try{
-            await this.transactionService.createTx(senderAccountId, recieverAccountNumber, amount,{transaction:tx})
-            await this.accountService.topUpBalance(recieverAccountNumber,amount,{transaction:tx})
-            await this.accountService.topUpBalance(senderAccountId,-amount,{transaction:tx})
-            await tx.commit();
-        }
-        catch(err){
-            await tx.rollback();
-        }
-    };
     
-    async internalMoneyTransfer(req:Request,res:Response){
-       try{
-        const params= {...req.body};
-        const senderAccountId = await this.accountService.findByField({id:params.senderId})
-            if(!senderAccountId){
-            return res.status(404).send("account not found");}
-
-            if(senderAccountId.balance<= 0){
-              return res.status(422).send('insufficient fund')}
-
-        const recieverAccountNumber = await this.accountService.findByField({id:params.recieverAccountNumber})
-            if(!recieverAccountNumber){
-                 return res.status(404).send("account not found");} 
-            if(senderAccountId== recieverAccountNumber){
-                return res.status(433).send("accont number belongs to you , error initiating transfer")
-            }  
-            const transfer =await this.transfer(senderAccountId.id, recieverAccountNumber.accountnumber, senderAccountId.balance);
-        }
-        catch(err){
-            return res.status(500).send("transfer failed")
-        };
-    };
-
-    async bankTransfer(req:Request,res:Response){
-        const params ={...req.body}
-       try{
-         let recipientId=''
-         const receiverInfo = await this.payeeservice.findRecipient(params.accountNumber, params.bankCode)
-        if(!receiverInfo){
-
-        }
-        else{
-            recipientId= receiverInfo.details.paystackBankCode
-        }
-       }catch(err){
-        return res.status(500).send("bank transfer failed")
-       }
-    };
-
-    async getBeneficiaries(req:Request,res:Response){
-    };
-    async loanRequest(req: Request,res: Response){
-        //various conditionals
-        const borower =req.user.id
-        const loanRequest = await this.loanService.fetchOne({borower})
-        if(loanRequest==LOAN_STATUS.PENDING){
-            return res.send(500).send("pending loan")
-        }
-    }
-    async billPayment(req:Request, res:Response){}
-    async fraudCheck(req:Request,res: Response){}
-
-    async getProfile(req:Request, res:Response){
-        const params = {...req.body}
-        try{
-            const userProfile = await this.accountService.findByField(params.user.id)
-            if(!userProfile)
-                return res.status(404).send("user profile not found");
-            return res.send(201).json({userProfile})
-        }catch(err){
-            return res.send(500).send("")
-        }
-    }
-
 };
 
 export default TransactionController;
