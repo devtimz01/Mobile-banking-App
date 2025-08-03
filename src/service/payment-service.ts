@@ -62,9 +62,7 @@ class PaymentService{
         }catch(err){
             return false;
         }
-
     }
-
 };
 
 export default PaymentService;

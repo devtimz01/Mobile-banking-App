@@ -72,10 +72,6 @@ class TransactionController{
             return res.status(500).send("failed to verify transaction")
         }  
     };
-
-    async internalMoneyTransfer(req:Request,res: Response){
-        
-    }
     
 };
 
