@@ -44,7 +44,7 @@ class TransactionService{
             raw: true
         } 
         const update={ status }
-        return await this.transactionDataSource.updateOne(filter,update)
+        return await this.transactionDataSource.updateOne(filter as any,update as any)
     };
 };
 

@@ -6,17 +6,14 @@ import { Itransaction } from "../interfaces/transaction-interface";
 import sequelize from "../Database";
 import AccountService from "../service/account-info-service";
 import { TransactionStatus } from "../enums/transaction-enums";
-import PayeeService from "../service/payee-service";
 
 class TransactionController{  
     private transactionService: TransactionService 
     private accountService: AccountService
-    private payeeservice: PayeeService
 
-    constructor(_transactionService:TransactionService, _accountService: AccountService,_payeeService: PayeeService){
+    constructor(_transactionService:TransactionService, _accountService: AccountService){
         this.transactionService= _transactionService
         this.accountService =_accountService
-        this.payeeservice = _payeeService
     };
 
     private async deposit(id:string, accountId:string, amount:number){
@@ -73,6 +70,9 @@ class TransactionController{
         }  
     };
     
+    async internalMoneyTransfer(req:Request,res:Response){
+
+    }
 };
 
 export default TransactionController;
